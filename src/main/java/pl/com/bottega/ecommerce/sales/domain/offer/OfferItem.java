@@ -28,25 +28,21 @@ public class OfferItem {
     private String currency;
 
     // discount
-    private String discountCause;
-
-    private Money discount;
-
+    private Discount discount;
     public OfferItem(Product product,
             int quantity) {
-        this(product, quantity, null, null);
+        this(product, quantity, null);
     }
 
     public OfferItem(Product product,
-            int quantity, Money discount, String discountCause) {
+            int quantity, Discount discount) {
         this.product = product;
         this.quantity = quantity;
         this.discount = discount;
-        this.discountCause = discountCause;
 
         BigDecimal discountValue = new BigDecimal(0);
         if (discount != null) {
-            discountValue = discountValue.add(discount.getValue());
+            discountValue = discountValue.add(discount.getAmount().getValue());
         }
 
         this.totalCost = new Money(product.getPrice().getValue().multiply(new BigDecimal(quantity))
@@ -65,13 +61,11 @@ public class OfferItem {
         return currency;
     }
 
-    public Money getDiscount() {
+
+    public Discount getDiscount() {
         return discount;
     }
 
-    public String getDiscountCause() {
-        return discountCause;
-    }
 
     public int getQuantity() {
         return quantity;
@@ -79,7 +73,7 @@ public class OfferItem {
 
     @Override
     public int hashCode() {
-        return Objects.hash(currency, discount, discountCause, product,
+        return Objects.hash(currency, discount, product,
                 quantity, totalCost);
     }
 
@@ -97,7 +91,6 @@ public class OfferItem {
         OfferItem other = (OfferItem) obj;
         return Objects.equals(currency, other.currency)
                && Objects.equals(discount, other.discount)
-               && Objects.equals(discountCause, other.discountCause)
                && Objects.equals(product, other.product)
                && quantity == other.quantity
                && Objects.equals(totalCost, other.totalCost);
