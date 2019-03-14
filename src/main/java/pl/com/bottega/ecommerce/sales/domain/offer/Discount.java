@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Discount {
     private String cause;
+
     private Money amount;
 
     public Discount(String cause, Money amount) {
