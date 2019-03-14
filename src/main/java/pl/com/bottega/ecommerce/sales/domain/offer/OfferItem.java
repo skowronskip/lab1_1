@@ -116,18 +116,8 @@ public class OfferItem {
             return false;
         }
 
-        BigDecimal max;
-        BigDecimal min;
-        if (totalCost.getValue().compareTo(other.totalCost.getValue()) > 0) {
-            max = totalCost.getValue();
-            min = other.totalCost.getValue();
-        } else {
-            max = other.totalCost.getValue();
-            min = totalCost.getValue();
-        }
-
-        BigDecimal difference = max.subtract(min);
-        BigDecimal acceptableDelta = max.multiply(BigDecimal.valueOf(delta / 100));
+        BigDecimal difference = totalCost.getValue().subtract(other.totalCost.getValue()).abs();
+        BigDecimal acceptableDelta = totalCost.getValue().max(other.totalCost.getValue()).multiply(BigDecimal.valueOf(delta / 100));
 
         return acceptableDelta.compareTo(difference) > 0;
     }
